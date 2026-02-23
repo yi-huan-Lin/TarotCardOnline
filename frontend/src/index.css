@@ -96,18 +96,3 @@
   animation-fill-mode: forwards;
 }
 
-.deck-wrapper {
-  /* position: fixed;
-  bottom: 0;
-  left: 0; */
-  width: 100vw;
-  /* 增加一個微妙的底部陰影，讓牌堆看起來像從底部長出來 */
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
-  background-color: black;
-  z-index: 50;
-  pointer-events: none; /* 防止容器擋住中間的展示區 */
-}
-
-.deck-wrapper > * {
-  pointer-events: auto; /* 讓裡面的牌恢復點擊 */
-}

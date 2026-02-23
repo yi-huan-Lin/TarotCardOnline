@@ -25,45 +25,69 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
   // 2. 【核心優化】限制渲染數量
   // 如果牌數過多，我們只取最後面的 35 張來顯示（最上面的牌）
   // 這樣使用者點擊到的永遠是「最上面」的那幾張，且視覺厚度依然足夠
-  const MAX_DISPLAY = isMobile ? 35 : 45;
+  const MAX_DISPLAY = isMobile ? 35 : 55;
   const displayCards = useMemo(() => {
     return availableCards.slice(-MAX_DISPLAY);
   }, [availableCards, MAX_DISPLAY]);
- 
+
   return (
     <div
       className="deck-container"
       onMouseEnter={() => setHasExpanded(true)}
       onTouchStart={() => setHasExpanded(true)}
       style={{
-        position: 'relative',
+        position: 'sticky', // 改為 absolute
+        bottom:0,
+        // paddingbottom:10,
+        // bottom: isMobile ? '-40px' : '-85px',
+        left: 0,
         width: '100%',
-        height: isMobile ? '220px' : '350px',
+        // height: isMobile ? '250px' : '250px', // 預留空間高度
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        perspective: '1000px', // 增加空間感
+        perspective: '1000px',
+        // overflow: 'scroll',
+        zIndex: 10,           // 確保在背景之上
       }}
     >
       <AnimatePresence>
         {displayCards.map((card, index) => {
           const total = displayCards.length;
-        
-          // 3. 計算座標與角度
-          // 使用 index / total 比例來計算，確保無論剩下幾張，扇形看起來都對稱
           const ratio = (index - total / 2);
+
+          // 1. 旋轉與 X 軸保持原樣
           const rotate = hasExpanded ? ratio * (isMobile ? 2.5 : 1.8) : ratio * 0.1;
           const x = hasExpanded ? ratio * (isMobile ? 6 : 12) : 0;
-          const y = hasExpanded ? Math.pow(Math.abs(ratio), 2) * (isMobile ? 0.15 : 0.1) : 0;
+
+          // 2. 關鍵修正：y 座標的邏輯
+          // 我們設定一個 baseHeight，這是牌堆「收納時」露出來的高度
+          const baseHeight = isMobile ? 40 : 60;
+
+          // arcY 只有在展開時才計算弧度，收起時為 0
+          const arcY = hasExpanded
+            ? Math.pow(Math.abs(ratio), 2) * (isMobile ? 0.15 : 0.1)
+            : 0;
+
+          // 下沉補償：確保展開後整體位置不會太高
+          const offsetDown = hasExpanded ? (isMobile ? 80 : 120) : 0;
+
+          // 最終 y：收起時位於 baseHeight，展開時計算弧度並加上下沉量
+          const y = baseHeight + arcY + offsetDown;
 
           return (
             <motion.div
               key={card.card.id}
-              layout
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1, rotate, x, y }}
+              animate={{
+                rotate,
+                x,
+                y,
+                opacity: 1 // 確保載入時透明度正常
+              }}
+              initial={{ opacity: 0, y: 200 }} // 第一次載入時從最下方升起
+              
               exit={{ y: -300, opacity: 0, scale: 0.5 }}
-              onClick={() => onPickCard(card.card.img,card.card.id,card.card.name_zh)}
+              onClick={() => onPickCard(card.card.img, card.card.id, card.card.name_zh)}
               whileHover={!isMobile ? {
                 y: y - 50,
                 scale: 1.15,
