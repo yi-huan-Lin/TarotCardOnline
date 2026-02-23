@@ -21,7 +21,7 @@ const CardDrawPage = ({
 
     return (
         <>
-            {step === 4 && <CardDescriptionPage stephandler={stephandler} cardList={cardList} />}
+            {/* {step === 4 && <CardDescriptionPage stephandler={stephandler} cardList={cardList} />} */}
             
             {/* 上方：展示已抽出的牌陣 */}
             <CardSpread cardList={cardList} />
@@ -34,14 +34,14 @@ const CardDrawPage = ({
 
                     {/* 關鍵改動：用 CardDeck 取代原本的 CardDraw */}
                     {showDeck && (
-                        // <div className="tarot-deck-fixed-bottom">
+                        <div className="">
                             <CardDeck 
                                 gameId={gameId}
                                 cards={tarotCards} 
                                 onPickCard={CardDrawHandler} 
                                 selectedCards={cardList}
                             />
-                        // </div>
+                        </div>
                     )}
                     
 

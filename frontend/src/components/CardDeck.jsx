@@ -35,19 +35,14 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
       className="deck-container"
       onMouseEnter={() => setHasExpanded(true)}
       onTouchStart={() => setHasExpanded(true)}
-      style={{
-        position: 'sticky', // 改為 absolute
-        bottom:0,
-        // paddingbottom:10,
-        // bottom: isMobile ? '-40px' : '-85px',
-        left: 0,
-        width: '100%',
-        // height: isMobile ? '250px' : '250px', // 預留空間高度
+      style={{      
+        width: '100%',        
+        alignItems: 'flex-end',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'flex-end',
+        bottom: 0,
+        padding:10,       
         perspective: '1000px',
-        // overflow: 'scroll',
         zIndex: 10,           // 確保在背景之上
       }}
     >
@@ -62,7 +57,7 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
 
           // 2. 關鍵修正：y 座標的邏輯
           // 我們設定一個 baseHeight，這是牌堆「收納時」露出來的高度
-          const baseHeight = isMobile ? 40 : 60;
+          const baseHeight = isMobile ? 40 : 70;
 
           // arcY 只有在展開時才計算弧度，收起時為 0
           const arcY = hasExpanded
@@ -85,7 +80,7 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
                 opacity: 1 // 確保載入時透明度正常
               }}
               initial={{ opacity: 0, y: 200 }} // 第一次載入時從最下方升起
-              
+
               exit={{ y: -300, opacity: 0, scale: 0.5 }}
               onClick={() => onPickCard(card.card.img, card.card.id, card.card.name_zh)}
               whileHover={!isMobile ? {
