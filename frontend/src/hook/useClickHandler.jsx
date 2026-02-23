@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCardShuffle } from "./useCardShuffle";
 import { defaultOption, fortuneOption, loveOption, careerOption,QuestionTypeName } from "../js/questionOption";
+import { CardImg } from "../components/card-img";
 
 const useClickHandler = () => {
   const CardHistory = localStorage.getItem("CardHistory") ? JSON.parse(localStorage.getItem("CardHistory")) : []
@@ -13,7 +14,7 @@ const useClickHandler = () => {
   const [QuestionType, setQuestionType] = useState('love')
   const [Option, setOption] = useState(defaultOption)
 
-
+  // console.log('Cards:',Cards)
   function typehandler(type) {
     setQuestionType(type)
   }
@@ -40,14 +41,17 @@ const useClickHandler = () => {
     }
   }
 
-  function CardDrawHandler(number) {
+  function CardDrawHandler(img,id,name_zh) {
+    
     const position = Math.random() < 0.5;
     const newCard = {
-      card: number,
+      cardId:id,
+      CardImg: img,
+      name_zh:name_zh,
       position: position
     }
     const newCards = Cards.map((card) =>
-      card.cardId === number ? { ...card, hidden: true, style: true } : { ...card, style: false }
+      card.id === id ? { ...card, hidden: true, style: true } : { ...card, style: false }
     );
     if (cardList.length < 7) {
       setCardList(preList => [...preList, newCard])
@@ -68,7 +72,7 @@ const useClickHandler = () => {
   function CardSaveHandler(cardList) {
     let CardHistory = localStorage.getItem('CardHistory') ? JSON.parse(localStorage.getItem('CardHistory')) : []
     let isRecord = CardHistory.map(list => list.type === QuestionType).some(Boolean);
-    console.log('isRecord', isRecord)
+    // console.log('isRecord', isRecord)
 
     if (isRecord) {      
       var yes = confirm(`[${QuestionTypeName[QuestionType]}]紀錄將被覆蓋`);

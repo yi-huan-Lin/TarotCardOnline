@@ -49,18 +49,7 @@
    
   }
 }
-@keyframes suffle-card {
-  0% {
-    margin-left: -80px;
-  }
-  85% {
-    margin-left: -80px;
-  }
 
-  100% {
-    margin-left: -20px;
-  }
-}
 @keyframes textBreathe {
   0% {
     opacity: 1;
@@ -87,24 +76,38 @@
   animation: rotateY 2s;
   animation-fill-mode: forwards;
 }
-
-.up-animation {
+/* .up-animation {
   animation: up 2s;
   animation-fill-mode: forwards;
-}
+}  */
 
 .suffle-animation {
-  animation: suffle 4s;
+  animation: suffle 1s;
   animation-fill-mode: forwards;
 }
 
 .textBreathe-animation {
-  animation: textBreathe 4s;
+  animation: textBreathe 1s;
 }
 
-.suffle-card-animation{  
-  
+.suffle-card-animation{    
   animation-timing-function: ease;
-  animation:suffle-card 5s;
+  animation:suffle-card 1s;
   animation-fill-mode: forwards;
+}
+
+.deck-wrapper {
+  /* position: fixed;
+  bottom: 0;
+  left: 0; */
+  width: 100vw;
+  /* 增加一個微妙的底部陰影，讓牌堆看起來像從底部長出來 */
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background-color: black;
+  z-index: 50;
+  pointer-events: none; /* 防止容器擋住中間的展示區 */
+}
+
+.deck-wrapper > * {
+  pointer-events: auto; /* 讓裡面的牌恢復點擊 */
 }
