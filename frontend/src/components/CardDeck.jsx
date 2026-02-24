@@ -8,7 +8,7 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
 
   const [hasExpanded, setHasExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
+  const [hoveredId, setHoveredId] = useState(null);
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
@@ -50,7 +50,8 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
         {displayCards.map((card, index) => {
           const total = displayCards.length;
           const ratio = (index - total / 2);
-
+          const isTarget = hoveredId === card.card.id;
+          const isSomeoneElseHovered = hoveredId !== null && !isTarget;
           // 1. 基礎高度 (負值 = 向上提)
           const baseUp = hasExpanded ? (isMobile ? -120 : -160) : (isMobile ? -30 : -40);
 
@@ -72,6 +73,8 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
           return (
             <motion.div
               key={card.card.id}
+              onMouseEnter={() => setHoveredId(card.card.id)}
+              onMouseLeave={() => setHoveredId(null)}
               animate={{
                 rotate,
                 x,
@@ -83,9 +86,9 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
               exit={{ y: -300, opacity: 0, scale: 0.5 }}
               onClick={() => onPickCard(card.card.img, card.card.id, card.card.name_zh)}
               whileHover={!isMobile ? {
-                y: y - 50,
-                scale: 1.15,
-                zIndex: 100,
+                y: y - 10,
+                scale: 1.1,
+                zIndex: 10,
                 transition: { duration: 0.2 }
               } : {}}
               // 4. 優化動畫設定：降低 Stiffness 減少重繪頻率
@@ -104,7 +107,8 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
                 backgroundSize: 'cover',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                zIndex: index,
+                pointerEvents: isSomeoneElseHovered ? 'none' : 'auto',
+                zIndex: isTarget ? 100 : index, // 被選中的牌 zIndex 噴高
                 boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
                 // 5. 強制開啟 GPU 加速
                 willChange: 'transform',

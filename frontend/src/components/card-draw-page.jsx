@@ -112,17 +112,18 @@ const CardDrawPage = ({
             {/* 上方：展示已抽出的牌陣 */}
             <CardSpread cardList={cardList} />
             {cardList.length === 7 && (
-                <div className="sticky mt-8 px-4 max-w-2xl mx-auto pb-20 z-50">
-                    <button
-                        onClick={handleAskAI}
-                        className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-[2px] rounded-xl shadow-xl hover:scale-105 transition-transform"
-                    >
-                        <div className="bg-slate-900 rounded-[10px] px-6 py-3">
-                            <span className="text-white font-bold">✨ 獲得 AI 深度解析</span>
-                        </div>
-                    </button>
-                    {/* 解析結果顯示區(暫時無用) */}
-                    {/* {(output || isGenerating) && (
+                <>
+                    <div className="sticky mt-8 px-4 max-w-2xl mx-auto pb-20 z-50">
+                        <button
+                            onClick={handleAskAI}
+                            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-[2px] rounded-xl shadow-xl hover:scale-105 transition-transform"
+                        >
+                            <div className="bg-slate-900 rounded-[10px] px-6 py-3">
+                                <span className="text-white font-bold">✨ 獲得 AI 深度解析</span>
+                            </div>
+                        </button>
+                        {/* 解析結果顯示區(暫時無用) */}
+                        {/* {(output || isGenerating) && (
                         <div className="bg-slate-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl">
                             <h3 className="text-indigo-300 font-bold mb-4 flex items-center gap-2">
                                 <div className={`w-2 h-2 rounded-full bg-indigo-400 ${isGenerating ? 'animate-pulse' : ''}`} />
@@ -137,13 +138,16 @@ const CardDrawPage = ({
                             {error && <p className="text-red-400 mt-4 text-sm">❌ {error}</p>}
                         </div>
                     )} */}
-                </div>
+                    </div>
+                    <ResetButton onClick={handleReset} />
+                </>
+
             )}
 
             {(showDeck) && (
                 <div>
+
                     {/*抽牌提示 */}
-                    <ResetButton onClick={handleReset} />
                     <CardDrawTips CardShuffleHandler={CardShuffleHandler} />
                     {/* 關鍵改動：用 CardDeck 取代原本的 CardDraw */}
 
