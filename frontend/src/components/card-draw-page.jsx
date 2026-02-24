@@ -18,7 +18,7 @@ const CardDrawPage = ({
     const [isLoading, setIsLoading] = useState(false);
     const { output, isGenerating, error, streamInterpretation } = useGeminiStreaming();
     const handleAskAI = () => {
-const prompt = `
+        const prompt = `
 # 塔羅占卜解讀任務
 
 你是一位神祕且洞察力敏銳的塔羅占卜師。
@@ -95,13 +95,11 @@ const prompt = `
 
     return (
         <>
-            {/* {step === 4 && <CardDescriptionPage stephandler={stephandler} cardList={cardList} />} */}
 
             {/* 上方：展示已抽出的牌陣 */}
             <CardSpread cardList={cardList} />
-
             {cardList.length === 7 && (
-                <div className="mt-8 px-4 max-w-2xl mx-auto pb-20 z-50">
+                <div className="sticky mt-8 px-4 max-w-2xl mx-auto pb-20 z-50">
                     {!output && !isGenerating && (
                         <button
                             onClick={handleAskAI}
@@ -133,25 +131,21 @@ const prompt = `
             )}
 
             {!openHistory && (
-                <>
-                    {/* 洗牌動畫與提示 */}
-                    {/* <CardSuffleAnimation /> */}
+                <div>
+                    {/*抽牌提示 */}
                     <CardDrawTips CardShuffleHandler={CardShuffleHandler} />
-
                     {/* 關鍵改動：用 CardDeck 取代原本的 CardDraw */}
                     {showDeck && (
-                        <div className="">
-                            <CardDeck
-                                gameId={gameId}
-                                cards={tarotCards}
-                                onPickCard={CardDrawHandler}
-                                selectedCards={cardList}
-                            />
-                        </div>
+
+                        <CardDeck
+                            gameId={gameId}
+                            cards={tarotCards}
+                            onPickCard={CardDrawHandler}
+                            selectedCards={cardList}
+                        />
+
                     )}
-
-
-                </>
+                </div>
             )}
         </>
     );

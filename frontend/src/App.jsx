@@ -18,14 +18,12 @@ function App() {
 
   return (
     <CardPageContainer>
-
       <CardDrawPage step={step} cardList={cardList} Cards={Cards} openHistory={openHistory}
         stephandler={stephandler}
         CardDrawHandler={CardDrawHandler}
         CardHistoryHandler={CardHistoryHandler}
         historyOption={historyOption}
       />
-
     </CardPageContainer>
   )
 }

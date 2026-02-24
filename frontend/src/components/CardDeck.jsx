@@ -35,15 +35,15 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
       className="deck-container"
       onMouseEnter={() => setHasExpanded(true)}
       onTouchStart={() => setHasExpanded(true)}
-      style={{      
-        width: '100%',        
-        alignItems: 'flex-end',
-        display: 'flex',
-        justifyContent: 'center',
-        bottom: 0,
-        padding:10,       
-        perspective: '1000px',
-        zIndex: 10,           // 確保在背景之上
+      style={{
+position: 'relative', // 關鍵
+    width: '100%',
+    height: isMobile ? '200px' : '350px', // 給予足夠的容器空間
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-end', // 所有卡片初始都貼在底部
+    overflow: 'visible', // 允許卡片向上彈出容器
+    bottom: isMobile ? '20px' : '40px', // 讓容器底部留白
       }}
     >
       <AnimatePresence>
@@ -51,24 +51,23 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
           const total = displayCards.length;
           const ratio = (index - total / 2);
 
-          // 1. 旋轉與 X 軸保持原樣
-          const rotate = hasExpanded ? ratio * (isMobile ? 2.5 : 1.8) : ratio * 0.1;
-          const x = hasExpanded ? ratio * (isMobile ? 6 : 12) : 0;
+          // 1. 基礎高度 (負值 = 向上提)
+          const baseUp = hasExpanded ? (isMobile ? -120 : -160) : (isMobile ? -30 : -40);
 
-          // 2. 關鍵修正：y 座標的邏輯
-          // 我們設定一個 baseHeight，這是牌堆「收納時」露出來的高度
-          const baseHeight = isMobile ? 40 : 70;
+          // 2. 修正後的弧度偏移：將計算結果乘上 -1 (負負得正的邏輯，這裡要確保它是負的)
+          // 我們希望中間高 (ratio=0 時偏移小)，兩側低 (ratio大時偏移大，也就是 y 值變大，變回正數)
+          // 所以 arc 應該要是正值，用來抵消掉負的 baseUp
 
-          // arcY 只有在展開時才計算弧度，收起時為 0
-          const arcY = hasExpanded
-            ? Math.pow(Math.abs(ratio), 2) * (isMobile ? 0.15 : 0.1)
+          const arcOffset = hasExpanded
+            ? Math.pow(Math.abs(ratio), 2) * (isMobile ? 0.2 : 0.15) // 這是正數
             : 0;
 
-          // 下沉補償：確保展開後整體位置不會太高
-          const offsetDown = hasExpanded ? (isMobile ? 80 : 120) : 0;
+          // 最終 Y：基礎負值 + 正值偏移 = 兩側會往下掉，形成彩虹狀
+          const y = baseUp + arcOffset;
 
-          // 最終 y：收起時位於 baseHeight，展開時計算弧度並加上下沉量
-          const y = baseHeight + arcY + offsetDown;
+          // 3. 旋轉與 X 維持
+          const rotate = hasExpanded ? ratio * (isMobile ? 2.5 : 2.0) : ratio * 0.1;
+          const x = hasExpanded ? ratio * (isMobile ? 6 : 12) : 0;
 
           return (
             <motion.div

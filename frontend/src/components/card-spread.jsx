@@ -3,9 +3,9 @@ import { CardImg } from "./card-img";
 import { CardInSpread } from "./card-in-spread";
 import { CardSingle } from "./card-single";
 const CardSpread = ({ cardList }) => {
-  // console.log('cardList', cardList)
+  
   return (
-    <div className="w-full pt-9 pb-2 lg:sticky  md:top-0 md:pt-0 md:pb-0 flex justify-center items-center z-11">
+    <div className="w-full pt-9 pb-2 lg:top-0  md:top-0 md:pt-0 md:pb-0 flex justify-center items-center z-11">
       <div className="w-[50%] md:w-[33%] lg:w-[23%]  flex py-5">
         <div className="w-[33%] px-[1px] flex items-center">
           <div className="w-full  flex flex-wrap items-center justify-end">
