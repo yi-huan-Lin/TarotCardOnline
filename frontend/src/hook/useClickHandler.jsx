@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCardShuffle } from "./useCardShuffle";
 import { defaultOption, fortuneOption, loveOption, careerOption,QuestionTypeName } from "../js/questionOption";
-import { CardImg } from "../components/card-img";
+
 
 const useClickHandler = () => {
   const CardHistory = localStorage.getItem("CardHistory") ? JSON.parse(localStorage.getItem("CardHistory")) : []
@@ -9,37 +9,16 @@ const useClickHandler = () => {
   const [cardList, setCardList] = useState([])
   const [Cards, setCards] = useState(tarotCards)
   const [openHistory, setOpenHistory] = useState(false)
-  const [historyOption, setHistoryOption] = useState(CardHistory)
-  const [step, setStep] = useState(1)
+  const [historyOption, setHistoryOption] = useState(CardHistory)  
   const [QuestionType, setQuestionType] = useState('love')
   const [Option, setOption] = useState(defaultOption)
 
-  // console.log('Cards:',Cards)
+ 
   function typehandler(type) {
     setQuestionType(type)
   }
 
-  function stephandler() {
-    if (QuestionType === "love") {
-      setOption(loveOption)
-      setQuestionType("love_1")
-    } else if (QuestionType === "career") {
-      setOption(careerOption)
-      setQuestionType("career_1")
-    } else if (QuestionType === "fortune") {
-      setOption(fortuneOption)
-      setQuestionType("fortune_1")
-    }
-    if (step === 1) { setStep(2) } else if (step === 2) {
-      setStep(3)
-      //儲存最後QuestionType
-      localStorage.setItem("QuestionType", QuestionType);
-    } else if (step === 3) {
-      setStep(4)
-    } else if (step === 4) {
-      setStep(3)
-    }
-  }
+
 
   function CardDrawHandler(img,id,name_zh) {
     
@@ -107,8 +86,8 @@ const useClickHandler = () => {
     }
   }
   return {
-    CardDrawHandler, CardShuffleHandler, typehandler, stephandler, CardSaveHandler, CardHistoryHandler,
-    step, Option, cardList, Cards, openHistory, historyOption
+    CardDrawHandler, CardShuffleHandler, typehandler, CardSaveHandler, CardHistoryHandler,setCardList,
+     Option, cardList, Cards, openHistory, historyOption
   }
 }
 

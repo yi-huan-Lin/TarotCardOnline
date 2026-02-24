@@ -36,14 +36,14 @@ const CardDeck = ({ gameId, cards, onPickCard, selectedCards = [] }) => {
       onMouseEnter={() => setHasExpanded(true)}
       onTouchStart={() => setHasExpanded(true)}
       style={{
-position: 'relative', // 關鍵
-    width: '100%',
-    height: isMobile ? '200px' : '350px', // 給予足夠的容器空間
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end', // 所有卡片初始都貼在底部
-    overflow: 'visible', // 允許卡片向上彈出容器
-    bottom: isMobile ? '20px' : '40px', // 讓容器底部留白
+        position: 'relative', // 關鍵
+        width: '100%',
+        height: isMobile ? '200px' : '350px', // 給予足夠的容器空間
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-end', // 所有卡片初始都貼在底部
+        overflow: 'visible', // 允許卡片向上彈出容器
+        bottom: isMobile ? '20px' : '40px', // 讓容器底部留白
       }}
     >
       <AnimatePresence>

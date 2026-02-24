@@ -4,19 +4,33 @@ import { CardDeck } from "../components/CardDeck"; // 導入新寫的扇形組�
 import { useCardShuffle } from "../hook/useCardShuffle";
 import { useState } from "react";
 import { useGeminiStreaming } from "../hook/useGeminiStreaming";
+import ResetButton from "./ResetButton";
+
+import QuestionInput from "./question-form/QuestionInput";
 const CardDrawPage = ({
-    step,
     cardList,
     CardShuffleHandler,
     openHistory,
-    CardDrawHandler,
-    stephandler,
-}) => {
-    const finalQuestion = '愛情';
-    const { tarotCards, gameId } = useCardShuffle()
-    const [interpretation, setInterpretation] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    setCardList,
+    CardDrawHandler
+
+}) => {   
+    const { tarotCards, shuffleCards, gameId } = useCardShuffle()
+    const [finalQuestion, setFinalQuestion] = useState("");
+    const [step, setStep] = useState(0);
     const { output, isGenerating, error, streamInterpretation } = useGeminiStreaming();
+    const handleReset = () => {
+        // 1. 回到抽牌步驟
+        setStep(0);
+
+        // 2. 清空已抽出的 7 張牌
+        setCardList([]); // 這裡請對應你儲存已抽牌陣的 state 名稱
+
+        // 3. 重新洗牌 (假設你的牌組 state 叫 cards，初始化函式叫 shuffleDeck)
+        shuffleCards();
+
+
+    };
     const handleAskAI = () => {
         const prompt = `
 # 塔羅占卜解讀任務
@@ -88,14 +102,17 @@ const CardDrawPage = ({
         // streamInterpretation(prompt);
     };
 
-    // 判斷是否已經抽完牌 (根據 cardList 長度與問題類型的邏輯)
-    // 這裡假設如果還在抽牌階段（step 不等於 4），就顯示扇形堆疊
-    const showDeck = step !== 4 && !openHistory;
+
+    const showDeck = step === 1 && !openHistory;
 
 
     return (
         <>
-
+            {!showDeck && <QuestionInput
+                question={finalQuestion}
+                setQuestion={setFinalQuestion}
+                onConfirm={() => setStep(1)}
+            />}
             {/* 上方：展示已抽出的牌陣 */}
             <CardSpread cardList={cardList} />
             {cardList.length === 7 && (
@@ -130,21 +147,21 @@ const CardDrawPage = ({
                 </div>
             )}
 
-            {!openHistory && (
+            {(!openHistory && showDeck) && (
                 <div>
                     {/*抽牌提示 */}
+                    <ResetButton onClick={handleReset} />
                     <CardDrawTips CardShuffleHandler={CardShuffleHandler} />
                     {/* 關鍵改動：用 CardDeck 取代原本的 CardDraw */}
-                    {showDeck && (
 
-                        <CardDeck
-                            gameId={gameId}
-                            cards={tarotCards}
-                            onPickCard={CardDrawHandler}
-                            selectedCards={cardList}
-                        />
+                    <CardDeck
+                        gameId={gameId}
+                        cards={tarotCards}
+                        onPickCard={CardDrawHandler}
+                        selectedCards={cardList}
+                    />
 
-                    )}
+
                 </div>
             )}
         </>

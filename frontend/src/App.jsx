@@ -8,20 +8,20 @@ function App() {
   const {
     CardDrawHandler,
     CardShuffleHandler,
-    typehandler,
-    stephandler,
+    typehandler,    
     CardHistoryHandler,
     CardSaveHandler,
-    step, Option, cardList, Cards, openHistory, historyOption
+    setCardList,
+     Option, cardList, Cards, openHistory, historyOption
 
   } = useClickHandler()
 
   return (
     <CardPageContainer>
-      <CardDrawPage step={step} cardList={cardList} Cards={Cards} openHistory={openHistory}
-        stephandler={stephandler}
+      <CardDrawPage cardList={cardList} Cards={Cards} openHistory={openHistory}        
         CardDrawHandler={CardDrawHandler}
         CardHistoryHandler={CardHistoryHandler}
+        setCardList={setCardList}
         historyOption={historyOption}
       />
     </CardPageContainer>
