@@ -7,18 +7,10 @@ const useClickHandler = () => {
   const CardHistory = localStorage.getItem("CardHistory") ? JSON.parse(localStorage.getItem("CardHistory")) : []
   const { tarotCards, setShuffle } = useCardShuffle()
   const [cardList, setCardList] = useState([])
+  //Cards處理扇形牌堆  cardList處理用戶抽牌
   const [Cards, setCards] = useState(tarotCards)
   const [openHistory, setOpenHistory] = useState(false)
-  const [historyOption, setHistoryOption] = useState(CardHistory)  
-  const [QuestionType, setQuestionType] = useState('love')
-  const [Option, setOption] = useState(defaultOption)
-
- 
-  function typehandler(type) {
-    setQuestionType(type)
-  }
-
-
+  const [historyOption, setHistoryOption] = useState(CardHistory)   
 
   function CardDrawHandler(img,id,name_zh) {
     
@@ -36,16 +28,6 @@ const useClickHandler = () => {
       setCardList(preList => [...preList, newCard])
       setCards(newCards)
     }
-  }
-
-  function CardShuffleHandler() {
-    setCardList([])
-    setShuffle((pre) => pre + 1)
-    setCards(tarotCards)
-    setStep(1)
-    setQuestionType("love")
-    setOption(defaultOption)
-    setOpenHistory(false)
   }
 
   function CardSaveHandler(cardList) {
@@ -86,8 +68,8 @@ const useClickHandler = () => {
     }
   }
   return {
-    CardDrawHandler, CardShuffleHandler, typehandler, CardSaveHandler, CardHistoryHandler,setCardList,
-     Option, cardList, Cards, openHistory, historyOption
+    CardDrawHandler,  CardSaveHandler, CardHistoryHandler,setCardList,
+     cardList, Cards, openHistory, historyOption
   }
 }
 

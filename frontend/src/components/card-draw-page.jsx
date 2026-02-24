@@ -3,7 +3,7 @@ import { CardDrawTips } from "./card-draw-tips";
 import { CardDeck } from "../components/CardDeck"; // 導入新寫的扇形組件
 import { useCardShuffle } from "../hook/useCardShuffle";
 import { useState } from "react";
-import { useGeminiStreaming } from "../hook/useGeminiStreaming";
+// import { useGeminiStreaming } from "../hook/useGeminiStreaming";
 import ResetButton from "./ResetButton";
 
 import QuestionInput from "./question-form/QuestionInput";
@@ -14,22 +14,18 @@ const CardDrawPage = ({
     setCardList,
     CardDrawHandler
 
-}) => {   
+}) => {
     const { tarotCards, shuffleCards, gameId } = useCardShuffle()
     const [finalQuestion, setFinalQuestion] = useState("");
     const [step, setStep] = useState(0);
-    const { output, isGenerating, error, streamInterpretation } = useGeminiStreaming();
+    // const { output, isGenerating, error, streamInterpretation } = useGeminiStreaming();
     const handleReset = () => {
         // 1. 回到抽牌步驟
         setStep(0);
-
         // 2. 清空已抽出的 7 張牌
         setCardList([]); // 這裡請對應你儲存已抽牌陣的 state 名稱
-
         // 3. 重新洗牌 (假設你的牌組 state 叫 cards，初始化函式叫 shuffleDeck)
         shuffleCards();
-
-
     };
     const handleAskAI = () => {
         const prompt = `
@@ -117,19 +113,16 @@ const CardDrawPage = ({
             <CardSpread cardList={cardList} />
             {cardList.length === 7 && (
                 <div className="sticky mt-8 px-4 max-w-2xl mx-auto pb-20 z-50">
-                    {!output && !isGenerating && (
-                        <button
-                            onClick={handleAskAI}
-                            className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-[2px] rounded-xl shadow-xl hover:scale-105 transition-transform"
-                        >
-                            <div className="bg-slate-900 rounded-[10px] px-6 py-3">
-                                <span className="text-white font-bold">✨ 獲得 AI 深度解析</span>
-                            </div>
-                        </button>
-                    )}
-
+                    <button
+                        onClick={handleAskAI}
+                        className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-[2px] rounded-xl shadow-xl hover:scale-105 transition-transform"
+                    >
+                        <div className="bg-slate-900 rounded-[10px] px-6 py-3">
+                            <span className="text-white font-bold">✨ 獲得 AI 深度解析</span>
+                        </div>
+                    </button>
                     {/* 解析結果顯示區(暫時無用) */}
-                    {(output || isGenerating) && (
+                    {/* {(output || isGenerating) && (
                         <div className="bg-slate-800/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl">
                             <h3 className="text-indigo-300 font-bold mb-4 flex items-center gap-2">
                                 <div className={`w-2 h-2 rounded-full bg-indigo-400 ${isGenerating ? 'animate-pulse' : ''}`} />
@@ -143,11 +136,11 @@ const CardDrawPage = ({
 
                             {error && <p className="text-red-400 mt-4 text-sm">❌ {error}</p>}
                         </div>
-                    )}
+                    )} */}
                 </div>
             )}
 
-            {(!openHistory && showDeck) && (
+            {(showDeck) && (
                 <div>
                     {/*抽牌提示 */}
                     <ResetButton onClick={handleReset} />

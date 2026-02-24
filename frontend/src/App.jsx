@@ -1,19 +1,14 @@
-
 import { useClickHandler } from "./hook/useClickHandler";
 import { CardDrawPage } from './components/card-draw-page';
 import { CardPageContainer } from "./components/card-page-container";
-
 import './index.css';
 function App() {
+  
   const {
     CardDrawHandler,
-    CardShuffleHandler,
-    typehandler,    
     CardHistoryHandler,
-    CardSaveHandler,
     setCardList,
-     Option, cardList, Cards, openHistory, historyOption
-
+    cardList, Cards, openHistory, historyOption
   } = useClickHandler()
 
   return (

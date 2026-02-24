@@ -2,7 +2,7 @@ const ResetButton = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 px-6 py-2 border border-slate-500 text-slate-400 hover:text-white hover:border-white rounded-full transition-all duration-300 text-sm tracking-widest mt-6 mx-auto"
+      className="flex top-0 items-center gap-2 px-6 py-2 border border-slate-500 text-slate-400 hover:text-white hover:border-white rounded-full transition-all duration-300 text-sm tracking-widest mt-6 mx-auto"
     >
       <svg 
         className="w-4 h-4" 
