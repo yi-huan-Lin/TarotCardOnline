@@ -3,8 +3,7 @@ import { CardImg } from "./card-img";
 import { CardSingle } from "./card-single";
 import { CardNote } from "./card-note";
 
-const CardInSpread = ({ CardInfo ,position}) => {
-  console.log(CardInfo,position)
+const CardInSpread = ({ CardInfo ,position}) => {  
   const class_Str = CardInfo.position ? "" : "rotate-180"
   const note_Str = CardInfo.position ? "正位" : "逆位"
  
